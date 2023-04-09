@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+ 
+
+{% block content %}
+<h1>Profile</h1>
+<p>Welcome, {{ session.username }}!</p>
+<p>Your used our service since {{ user[2] }}!</p>
+<p>Role: 
+    {% if session.role_id ==2 %}
+    Customer
+    {% else %}
+    Admin
+    {% endif %}
+    </p>
+{% endblock %}

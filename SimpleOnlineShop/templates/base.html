@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<content>
+  <nav>
+    <ul>
+      <li><a href="{{ url_for('index') }}">Home</a></li>
+      <li><a href="{{ url_for('about') }}">About Us</a></li>
+      <li><a href="{{ url_for('products') }}">Products</a></li>
+
+      {% if 'user_id' in session %}
+        <li><a href="{{ url_for('profile') }}">Profile</a></li>
+          {% if session.role_id ==1 %}
+          <li><a href="{{ url_for('admin') }}">Admin</a></li>
+          {% else %}
+          <li><a href="{{ url_for('cart') }}">Cart</a></li>
+          {% endif %}
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+      {% else %}
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+        <li><a href="{{ url_for('signup') }}">Signup</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+    {% if error %}
+    <div class="errorDiv">
+        <p>warning message: {{ error }}</p>
+    </div>
+    {% endif %}
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li >{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+  <div class="content">
+    {% block content %}{% endblock %}
+  </div>
+  <footer>
+    <div>2023 Copyright: Online Groceries Shop</div>
+
+  </footer>
+</content>
+</html>

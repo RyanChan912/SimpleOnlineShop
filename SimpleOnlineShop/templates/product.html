@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+<div style="width: 100%;">
+    <h1>Product detail for: {{product[1]}}</h1>
+    {% if product %}
+    <table style="width: 100%;">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tcontent>
+            <tr style="width:100%">
+                <td style='width: 25%;text-align: center;'>{{ product[1] }}</td>
+                <td>{{ product[2] }}</td>
+                <td style='width: 25%;text-align: center;'>HKD${{ product[3] }}</td>
+                <td style='width: 25%;text-align: center;'><img style='max-width: 200px;'
+                        src="/static/productImage/{{product[4]}}" /></td>
+            </tr>
+        </tcontent>
+    </table>
+</div>
+<br>
+{% if session.role_id == 2%}
+<div style="width: 100%;margin-top: 5px;margin-bottom: 20px;">
+    <form method="POST" action="{{ url_for('cart') }}" style="width:50%;float:right;">
+        <input type="number" style="display:none;" id="product_id" name="product_id" value="{{product[0]}}" required>
+        <div class="form-group" style="width:100%">
+            <label for="quantity" style="width:25%">quantity:</label>
+            <input style="width:25%" type="number" step="1" min="1" class="form-control" id="quantity" name="quantity" required>
+            <input style="width:25%;" type="submit" value="Add to Cart">
+            
+        </div>
+       
+    </form>
+</div>
+{% endif %}
+<br>
+
+<div style="margin-top:20px;width:100%;border-radius: 20px;">
+    <h1>Comment Area</h1>
+    {% if comments%}
+
+    {% for comment in comments%}
+    <div style="width:100%;margin-bottom: 20px;">
+        <div style="background: #e1ffc7;
+        border-radius: 5px 0px 5px 5px;
+        ">
+            <span style="padding: 0 0 0 16px;"><strong>{{comment[0]}}:</strong>{{comment[1]}}</span>
+            <span style="width:100%;color: rgba(0, 0, 0, .45); font-size: 11px; display: inline-block;text-align: right;">{{comment[2]}}</span>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% else %}
+    <p>No comments yet. Be the first one to comment this product!</p>
+    {% endif %}
+</div>
+
+
+{% if session.user_id %}
+<div style="width: 100%;">
+<form method="POST" action="{{ url_for('comment') }}" style="width: 100%;">
+    <input type="number" style="display:none;" id="product_id" name="product_id" value="{{product[0]}}" required>
+    <div class="form-group">
+        <label for="name" style="width: 100%;">Comment Content</label>
+        <input type="text" class="form-control" id="content" name="content" required style="width: 100%;">
+    </div>
+    <input type="submit" value="Comment">
+</form>
+</div>
+{% endif %}
+
+
+{% else %}
+<p>Sorry, this product is not availble now!</p>
+{% endif %}
+
+{% endblock %}

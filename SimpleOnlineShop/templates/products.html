@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+ 
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+
+<h1>Product List</h1>
+{% if products %}
+<table>
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Image</th>
+            <th>Detail</th>
+            {% if session.role_id == 1%}
+            <th>Change</th>
+            <th>Delete</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tcontent>
+        {% for item in products %}
+        <tr>
+            <td style='width: 25%;text-align: center;'>{{ item[1] }}</td>
+            <td style='width: 25%;text-align: center;'>HKD${{ item[3] }}</td>
+            <td style='width: 25%;text-align: center;'><img style='max-width: 200px;' src="/static/productImage/{{item[4]}}"/></td>
+            <td style='width: 8%;text-align: center;'><a href="/product/{{item[0]}}">detail</a></td>
+            {% if session.role_id == 1%}
+            <td style='width: 8%;text-align: center;'><a href="/updateProduct/{{item[0]}}">change</a></td>
+            <td style='width: 8%;text-align: center;'><a href="/deleteProduct/{{item[0]}}">delete</a></td>
+            
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tcontent>
+</table>
+    {% if session.role_id == 2%}
+    <form method="GET" action="{{ url_for('cart') }}" style="width:100%;">
+        <input type="submit" value="Go to My Cart">
+    </form>
+    {% endif %}
+{% else %}
+<p>Sorry, No product availble now!</p>
+{% endif %}
+
+{% endblock %}

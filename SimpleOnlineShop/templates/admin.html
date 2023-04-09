@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Admin page{% endblock %}
+{% block content %}
+  <div class="container">
+    <h1>Welcome to Admin Panel</h1>
+    <a href="{{url_for('addProduct')}}" class="btn btn-primary">New Product</a>
+  </div>
+  {% if histories %}
+  <ul style="width: 80%;">
+    {% for key, value in histories.items() %}
+    <div style="box-shadow: 5px 10px #888888;margin: 5px 0 21px 0; border: 1px solid #ccc;">
+        <h1 class="summaryHead"> History shopping summary for user:{{key}}  </h1>
+        {%if value[0][0] %}
+          <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Image</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tcontent>
+                {% for item in value[0] %}
+                <tr>
+                    <td style="width:25%;text-align: center;">{{ item[0] }}</td>
+                    <td style='width: 25%;text-align: center;'><img style='max-width: 100%;max-height: 100px;'
+                        src="/static/productImage/{{item[3]}}" /></td>
+                    <td style="width:25%;text-align: center;">{{ item[2] }}</td>
+                    <td style="width:25%;text-align: center;">${{item[1]}}</td>
+                    <td class="subtotal" style="width:25%;text-align: center;">${{item[2] *item[1]}}</td>
+                </tr>
+                {% endfor %}
+            </tcontent>
+            <tfoot>
+                <tr style="height:auto;">
+                    <td></td><td></td><td></td><td></td>
+                    <td class="total">Total:${{value[1]}}</td>
+                </tr>
+            </tfoot>
+        </table>
+        {%else%}
+        <p style="padding-left:30px;">This User has not shopping history.</p>
+        {%endif%}
+    </div>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <h1>Currently there is no user.</h1>
+  {% endif %}
+{% endblock %}

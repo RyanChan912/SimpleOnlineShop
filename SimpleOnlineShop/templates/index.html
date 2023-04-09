@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Index page{% endblock %}
+{% block content %}
+  <div class="container">
+    <h1>Welcome to Online Groceries Shop</h1>
+    {% if session.user_id %}
+      <p>You are logged in</p>
+
+      <p>Your username is {{ session.username }}</p>
+      <a href="{{ url_for('logout') }}">Log out</a>
+    {% else %}
+      <p>Please log in or create an account.</p>
+      <div class="row">
+        <div>
+          <h2>Log In</h2>
+          <form method="post" action="{{ url_for('login') }}">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <button type="submit" style="float:right;margin-bottom: 20px;">Log In</button>
+          </form>
+        </div>
+          <p><b>Don't have an account?</b></p>
+          <p style="margin-bottom:30px;"><a href="{{ url_for('signup') }}">Sign Up here</a></p>
+         
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
